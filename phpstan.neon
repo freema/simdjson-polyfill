@@ -1,0 +1,11 @@
+parameters:
+    level: max
+    paths:
+        - src
+    ignoreErrors:
+        # Allow dynamic simdjson_decode function call
+        - '#Function simdjson_decode not found#'
+        # Allow uopz functions
+        - '#Function uopz_set_return not found#'
+        # Allow getrusage
+        - '#Function getrusage invoked with 0 parameters#'

@@ -1,0 +1,159 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "age": 28,
+      "active": true,
+      "roles": ["user", "admin"],
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "country": "USA",
+        "zipCode": "10001"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "age": 35,
+      "active": true,
+      "roles": ["user"],
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Los Angeles",
+        "country": "USA",
+        "zipCode": "90001"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Charlie Brown",
+      "email": "charlie@example.com",
+      "age": 42,
+      "active": false,
+      "roles": ["user", "moderator"],
+      "address": {
+        "street": "789 Pine Rd",
+        "city": "Chicago",
+        "country": "USA",
+        "zipCode": "60601"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Diana Prince",
+      "email": "diana@example.com",
+      "age": 31,
+      "active": true,
+      "roles": ["user", "admin", "moderator"],
+      "address": {
+        "street": "321 Elm St",
+        "city": "Houston",
+        "country": "USA",
+        "zipCode": "77001"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Eve Martinez",
+      "email": "eve@example.com",
+      "age": 26,
+      "active": true,
+      "roles": ["user"],
+      "address": {
+        "street": "654 Birch Ln",
+        "city": "Phoenix",
+        "country": "USA",
+        "zipCode": "85001"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Frank Wilson",
+      "email": "frank@example.com",
+      "age": 39,
+      "active": false,
+      "roles": ["user"],
+      "address": {
+        "street": "987 Cedar Dr",
+        "city": "Philadelphia",
+        "country": "USA",
+        "zipCode": "19101"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Grace Lee",
+      "email": "grace@example.com",
+      "age": 33,
+      "active": true,
+      "roles": ["user", "admin"],
+      "address": {
+        "street": "147 Maple Ave",
+        "city": "San Antonio",
+        "country": "USA",
+        "zipCode": "78201"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Henry Davis",
+      "email": "henry@example.com",
+      "age": 45,
+      "active": true,
+      "roles": ["user", "moderator"],
+      "address": {
+        "street": "258 Walnut St",
+        "city": "San Diego",
+        "country": "USA",
+        "zipCode": "92101"
+      }
+    },
+    {
+      "id": 9,
+      "name": "Ivy Chen",
+      "email": "ivy@example.com",
+      "age": 29,
+      "active": true,
+      "roles": ["user"],
+      "address": {
+        "street": "369 Spruce Rd",
+        "city": "Dallas",
+        "country": "USA",
+        "zipCode": "75201"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Jack Taylor",
+      "email": "jack@example.com",
+      "age": 37,
+      "active": false,
+      "roles": ["user"],
+      "address": {
+        "street": "741 Ash Ln",
+        "city": "San Jose",
+        "country": "USA",
+        "zipCode": "95101"
+      }
+    }
+  ],
+  "metadata": {
+    "total": 10,
+    "page": 1,
+    "perPage": 10,
+    "hasMore": false,
+    "timestamp": "2025-01-15T10:30:00Z",
+    "version": "1.0"
+  },
+  "stats": {
+    "activeUsers": 7,
+    "inactiveUsers": 3,
+    "totalAdmins": 3,
+    "totalModerators": 3,
+    "averageAge": 34.5
+  }
+}

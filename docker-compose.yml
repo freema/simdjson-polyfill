@@ -1,0 +1,59 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null  # Keep container running
+
+  php-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: vendor/bin/phpunit
+
+  php-benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: php tests/Benchmark/JsonDecodeBenchmark.php
+
+  # PHP 8.0 testing
+  php80:
+    image: php:8.0-cli-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null
+
+  # PHP 8.1 testing
+  php81:
+    image: php:8.1-cli-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null
+
+  # PHP 8.2 testing
+  php82:
+    image: php:8.2-cli-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null
+
+  # PHP 8.3 testing
+  php83:
+    image: php:8.3-cli-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null
