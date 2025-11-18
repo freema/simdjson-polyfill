@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    SimdJsonPolyfill\JsonDecoder:
+        public: true
+        class: SimdJsonPolyfill\JsonDecoder
+
+    SimdJsonPolyfill\SimdJsonPolyfill:
+        public: true
+        class: SimdJsonPolyfill\SimdJsonPolyfill

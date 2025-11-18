@@ -1,0 +1,13 @@
+.git
+.gitignore
+.github
+*.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+vendor/
+build/
+coverage/
+tests/Benchmark/fixtures/medium.json
+tests/Benchmark/fixtures/large.json
+tests/Benchmark/fixtures/xlarge.json

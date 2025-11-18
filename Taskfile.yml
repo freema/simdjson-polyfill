@@ -1,0 +1,139 @@
+version: '3'
+
+vars:
+  DOCKER_PHP: docker-compose run --rm php
+  DOCKER_PHP80: docker-compose run --rm php80
+  DOCKER_PHP81: docker-compose run --rm php81
+  DOCKER_PHP82: docker-compose run --rm php82
+  DOCKER_PHP83: docker-compose run --rm php83
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  build:
+    desc: Build Docker containers
+    cmds:
+      - docker-compose build
+
+  up:
+    desc: Start containers
+    cmds:
+      - docker-compose up -d php
+
+  down:
+    desc: Stop containers
+    cmds:
+      - docker-compose down
+
+  shell:
+    desc: Open shell in PHP container
+    cmds:
+      - docker-compose run --rm php sh
+
+  install:
+    desc: Install Composer dependencies
+    cmds:
+      - "{{.DOCKER_PHP}} composer install"
+
+  update:
+    desc: Update Composer dependencies
+    cmds:
+      - "{{.DOCKER_PHP}} composer update"
+
+  test:
+    desc: Run PHPUnit tests
+    cmds:
+      - "{{.DOCKER_PHP}} vendor/bin/phpunit --colors=always"
+
+  test-coverage:
+    desc: Run tests with coverage
+    cmds:
+      - "{{.DOCKER_PHP}} vendor/bin/phpunit --coverage-html build/coverage --colors=always"
+
+  fixtures:
+    desc: Generate benchmark fixtures
+    cmds:
+      - "{{.DOCKER_PHP}} php tests/Benchmark/generate-fixtures.php"
+
+  benchmark:
+    desc: Run benchmarks
+    cmds:
+      - "{{.DOCKER_PHP}} php tests/Benchmark/JsonDecodeBenchmark.php"
+
+  stan:
+    desc: Run PHPStan static analysis
+    cmds:
+      - "{{.DOCKER_PHP}} vendor/bin/phpstan analyse --no-progress"
+
+  # Test on different PHP versions
+  test-80:
+    desc: Test on PHP 8.0
+    cmds:
+      - "{{.DOCKER_PHP80}} sh -c 'php -v && composer install 2>/dev/null && vendor/bin/phpunit'"
+
+  test-81:
+    desc: Test on PHP 8.1
+    cmds:
+      - "{{.DOCKER_PHP81}} sh -c 'php -v && composer install 2>/dev/null && vendor/bin/phpunit'"
+
+  test-82:
+    desc: Test on PHP 8.2
+    cmds:
+      - "{{.DOCKER_PHP82}} sh -c 'php -v && composer install 2>/dev/null && vendor/bin/phpunit'"
+
+  test-83:
+    desc: Test on PHP 8.3
+    cmds:
+      - "{{.DOCKER_PHP83}} sh -c 'php -v && composer install 2>/dev/null && vendor/bin/phpunit'"
+
+  test-all:
+    desc: Test on all PHP versions (8.0-8.3)
+    cmds:
+      - task: test-80
+      - task: test-81
+      - task: test-82
+      - task: test-83
+
+  clean:
+    desc: Clean up
+    cmds:
+      - docker-compose down -v
+      - rm -rf vendor build composer.lock
+
+  # Check if simdjson extension is loaded
+  check-simdjson:
+    desc: Check if simdjson extension is loaded
+    cmds:
+      - "{{.DOCKER_PHP}} php -m | grep simdjson || echo 'simdjson NOT loaded'"
+
+  # Check if UOPZ extension is loaded
+  check-uopz:
+    desc: Check if UOPZ extension is loaded
+    cmds:
+      - "{{.DOCKER_PHP}} php -m | grep uopz || echo 'UOPZ NOT loaded'"
+
+  # Quick test of json_decode override
+  test-override:
+    desc: Test json_decode() override with UOPZ
+    cmds:
+      - |
+        {{.DOCKER_PHP}} php -r "
+        require 'vendor/autoload.php';
+        use SimdJsonPolyfill\SimdJsonPolyfill;
+
+        echo '=== Testing json_decode() override ===' . PHP_EOL;
+        echo 'simdjson loaded: ' . (extension_loaded('simdjson') ? 'YES' : 'NO') . PHP_EOL;
+        echo 'UOPZ loaded: ' . (extension_loaded('uopz') ? 'YES' : 'NO') . PHP_EOL;
+
+        if (extension_loaded('uopz') && extension_loaded('simdjson')) {
+            SimdJsonPolyfill::enable(['strategy' => 'uopz', 'allow_in_production' => true]);
+            \$json = '{\"test\": true, \"value\": 123}';
+            \$result = json_decode(\$json, true);
+            echo 'Override SUCCESS: ' . json_encode(\$result) . PHP_EOL;
+        } else {
+            echo 'Cannot test override - missing extensions' . PHP_EOL;
+        }
+        "
