@@ -12,7 +12,6 @@ namespace SimdJsonPolyfill\Strategy;
  */
 final class NamespaceStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
     private PolyfillStrategy $polyfill;
     /** @var array<string> */
     private array $namespaces = [];
@@ -44,7 +43,6 @@ final class NamespaceStrategy implements StrategyInterface
         }
 
         $this->generateNamespaceFunctions($config['output_dir'] ?? null);
-        $this->enabled = true;
     }
 
     public function decode(

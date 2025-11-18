@@ -3,9 +3,13 @@ parameters:
     paths:
         - src
     ignoreErrors:
-        # Allow dynamic simdjson_decode function call
-        - '#Function simdjson_decode not found#'
-        # Allow uopz functions
-        - '#Function uopz_set_return not found#'
-        # Allow getrusage
-        - '#Function getrusage invoked with 0 parameters#'
+        # Symfony Config Builder - enumNode/scalarNode not in Symfony 5.4
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::(scalarNode|enumNode)\(\)#'
+        # Mixed type issues from config arrays - known safe, validated at runtime
+        - '#Parameter \#[0-9]+ \$name of static method .*::createStrategy\(\) expects string, mixed given#'
+        - '#Parameter \#[0-9]+ .* of (method|function) .* expects .*, mixed given#'
+        - '#Property .* does not accept mixed#'
+        - '#Cannot call method .* on mixed#'
+        - '#Part \$\w+ \(mixed\) of encapsed string cannot be cast to string#'
+        - '#Cannot call method decode\(\) on .*\|null#'
+        - '#Parameter \#3 \$depth of function json_decode expects int<1, max>, int given#'

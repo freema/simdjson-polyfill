@@ -13,7 +13,7 @@ use SimdJsonPolyfill\JsonDecoder;
  */
 final class JsonDecodeBenchmark
 {
-    private const ITERATIONS = 100;
+    private const ITERATIONS = 10000;
     private const FIXTURES_DIR = __DIR__ . '/fixtures';
 
     private array $fixtures = [

@@ -15,6 +15,7 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('simdjson');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
@@ -23,9 +24,12 @@ final class Configuration implements ConfigurationInterface
                     ->defaultTrue()
                     ->info('Enable simdjson integration')
                 ->end()
-                ->enumNode('strategy')
-                    ->values(['auto', 'uopz', 'namespace', 'composer-plugin', 'auto-prepend', 'polyfill'])
+                ->scalarNode('strategy')
                     ->defaultValue('auto')
+                    ->validate()
+                        ->ifNotInArray(['auto', 'uopz', 'namespace', 'composer-plugin', 'auto-prepend', 'polyfill'])
+                        ->thenInvalid('Invalid strategy "%s". Must be one of: auto, uopz, namespace, composer-plugin, auto-prepend, polyfill')
+                    ->end()
                     ->info('Strategy to use for json_decode override')
                 ->end()
                 ->booleanNode('auto_detect')

@@ -12,7 +12,6 @@ namespace SimdJsonPolyfill\Strategy;
  */
 final class UopzStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
     private PolyfillStrategy $polyfill;
 
     public function __construct()
@@ -43,8 +42,6 @@ final class UopzStrategy implements StrategyInterface
         }
 
         // Override json_decode globally
-        $polyfill = $this->polyfill;
-
         uopz_set_return(
             'json_decode',
             function (
@@ -52,13 +49,11 @@ final class UopzStrategy implements StrategyInterface
                 ?bool $associative = null,
                 int $depth = 512,
                 int $flags = 0
-            ) use ($polyfill): mixed {
-                return $polyfill->decode($json, $associative, $depth, $flags);
+            ): mixed {
+                return $this->polyfill->decode($json, $associative, $depth, $flags);
             },
             true // Execute as userland function
         );
-
-        $this->enabled = true;
     }
 
     public function decode(
