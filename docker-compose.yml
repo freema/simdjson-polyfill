@@ -57,3 +57,11 @@ services:
       - .:/app
     working_dir: /app
     command: tail -f /dev/null
+
+  # PHP 8.4 testing
+  php84:
+    image: php:8.4-cli-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null

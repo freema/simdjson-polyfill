@@ -12,8 +12,6 @@ namespace SimdJsonPolyfill\Strategy;
  */
 final class AutoPrependStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
-
     public function isAvailable(): bool
     {
         return extension_loaded('simdjson');
@@ -30,7 +28,6 @@ final class AutoPrependStrategy implements StrategyInterface
         $outputFile = $config['output_file'] ?? sys_get_temp_dir() . '/simdjson-polyfill-prepend.php';
 
         $this->generatePrependFile($outputFile);
-        $this->enabled = true;
 
         // Provide instructions
         $this->printInstructions($outputFile);

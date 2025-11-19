@@ -30,6 +30,13 @@ Get **3x faster JSON parsing** with minimal code changes. Drop-in replacement fo
 - 💾 Lower CPU usage and better resource utilization
 - 🔥 Zero-copy parsing when possible
 
+## 📋 Requirements
+
+- PHP 8.0 or higher (tested on PHP 8.0, 8.1, 8.2, 8.3, and 8.4)
+- Composer
+
+**PHP 8.4 Note:** All strategies work on PHP 8.4 **except UopzStrategy**, which requires PHP ≤ 8.3 due to uopz extension incompatibility.
+
 ## 📦 Installation
 
 ```bash
@@ -153,6 +160,7 @@ $data = json_decode($json, true);
 - ⚠️ Requires `ext-uopz`
 - ⚠️ May have unexpected side effects
 - ⚠️ Disabled in production by default
+- ❌ **Not compatible with PHP 8.4+** (uopz doesn't support PHP 8.4 due to ZEND_EXIT opcode removal)
 
 ### 3. NamespaceStrategy (Medium Risk)
 
@@ -278,22 +286,34 @@ Results from benchmarking on PHP 8.3:
 ========================================
 SimdJsonPolyfill Benchmark
 ========================================
-Iterations: 100
+Iterations: 10000
+PHP Version: 8.3.27
+simdjson extension: YES
+========================================
 
-===== File: small.json (6.6 KB) =====
-json_decode          2.98 ms (0.030 ms/op) | CPU u/s:    2.98 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-simdjson_decode      1.10 ms (0.011 ms/op) | CPU u/s:    1.10 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-➡️  simdjson_decode is approximately 2.71x faster (wall-time)
+===== File: small.json (3.3 KB) =====
+json_decode             98.26 ms (0.010 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+simdjson_decode         35.67 ms (0.004 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+➡️  simdjson_decode is approximately 2.75x faster (wall-time)
+simdjson (polyfill)     35.69 ms (0.004 ms/op) | memΔ:     4 KB | peakΔ:      0 B
 
-===== File: medium.json (50 KB) =====
-json_decode         24.50 ms (0.245 ms/op) | CPU u/s:   24.50 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-simdjson_decode      8.20 ms (0.082 ms/op) | CPU u/s:    8.20 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-➡️  simdjson_decode is approximately 2.99x faster (wall-time)
+===== File: medium.json (50.6 KB) =====
+json_decode            926.56 ms (0.093 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+simdjson_decode        379.83 ms (0.038 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+➡️  simdjson_decode is approximately 2.44x faster (wall-time)
+simdjson (polyfill)    378.66 ms (0.038 ms/op) | memΔ:     4 KB | peakΔ:      0 B
 
-===== File: large.json (100 KB) =====
-json_decode         48.70 ms (0.487 ms/op) | CPU u/s:   48.70 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-simdjson_decode     15.80 ms (0.158 ms/op) | CPU u/s:   15.80 /    0.00 ms | memΔ: 0.0 B | peakΔ: 0.0 B
-➡️  simdjson_decode is approximately 3.08x faster (wall-time)
+===== File: large.json (101.1 KB) =====
+json_decode          1,833.82 ms (0.183 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+simdjson_decode        792.74 ms (0.079 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+➡️  simdjson_decode is approximately 2.31x faster (wall-time)
+simdjson (polyfill)    779.16 ms (0.078 ms/op) | memΔ:     4 KB | peakΔ:      0 B
+
+===== File: xlarge.json (500.7 KB) =====
+json_decode          9,130.94 ms (0.913 ms/op) | memΔ:     4 KB | peakΔ:   1.8 MB
+simdjson_decode      3,752.57 ms (0.375 ms/op) | memΔ:     4 KB | peakΔ:    376 B
+➡️  simdjson_decode is approximately 2.43x faster (wall-time)
+simdjson (polyfill)  3,751.59 ms (0.375 ms/op) | memΔ:     4 KB | peakΔ:    376 B
 ```
 
 **Run benchmarks yourself:**

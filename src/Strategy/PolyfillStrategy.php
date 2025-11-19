@@ -10,8 +10,6 @@ namespace SimdJsonPolyfill\Strategy;
  */
 final class PolyfillStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
-
     public function isAvailable(): bool
     {
         return true; // Always available
@@ -19,7 +17,7 @@ final class PolyfillStrategy implements StrategyInterface
 
     public function enable(array $config = []): void
     {
-        $this->enabled = true;
+        // No-op: Polyfill is always available, no setup needed
     }
 
     public function decode(

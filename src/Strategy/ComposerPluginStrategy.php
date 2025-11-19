@@ -19,8 +19,6 @@ use PhpParser\PrettyPrinter\Standard;
  */
 final class ComposerPluginStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
-
     public function isAvailable(): bool
     {
         return extension_loaded('simdjson') && class_exists(ParserFactory::class);
@@ -49,7 +47,6 @@ final class ComposerPluginStrategy implements StrategyInterface
         $createBackups = $config['create_backups'] ?? true;
 
         $this->rewriteVendorCode($vendorDir, $excludePatterns, $createBackups);
-        $this->enabled = true;
     }
 
     public function decode(

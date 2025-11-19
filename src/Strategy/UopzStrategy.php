@@ -9,10 +9,12 @@ namespace SimdJsonPolyfill\Strategy;
  *
  * ⚠️ WARNING: This is a risky strategy that modifies runtime behavior globally.
  * Requires ext-uopz to be installed.
+ *
+ * ⚠️ NOT COMPATIBLE WITH PHP 8.4+: The uopz extension does not support PHP 8.4 due to
+ * the removal of the ZEND_EXIT opcode. Use an alternative strategy for PHP 8.4+.
  */
 final class UopzStrategy implements StrategyInterface
 {
-    private bool $enabled = false;
     private PolyfillStrategy $polyfill;
 
     public function __construct()
@@ -22,11 +24,25 @@ final class UopzStrategy implements StrategyInterface
 
     public function isAvailable(): bool
     {
+        // uopz is not compatible with PHP 8.4+ due to ZEND_EXIT opcode removal
+        if (PHP_VERSION_ID >= 80400) {
+            return false;
+        }
+
         return extension_loaded('uopz') && extension_loaded('simdjson');
     }
 
     public function enable(array $config = []): void
     {
+        // Check PHP version compatibility first
+        if (PHP_VERSION_ID >= 80400) {
+            throw new \RuntimeException(
+                'UopzStrategy is not supported on PHP 8.4 or higher. ' .
+                'The uopz extension is incompatible with PHP 8.4 due to the removal of the ZEND_EXIT opcode. ' .
+                'Please use an alternative strategy (PolyfillStrategy, AutoPrependStrategy, or NamespaceStrategy).'
+            );
+        }
+
         if (!$this->isAvailable()) {
             throw new \RuntimeException(
                 'UopzStrategy requires both ext-uopz and ext-simdjson to be installed.'
@@ -43,8 +59,6 @@ final class UopzStrategy implements StrategyInterface
         }
 
         // Override json_decode globally
-        $polyfill = $this->polyfill;
-
         uopz_set_return(
             'json_decode',
             function (
@@ -52,13 +66,11 @@ final class UopzStrategy implements StrategyInterface
                 ?bool $associative = null,
                 int $depth = 512,
                 int $flags = 0
-            ) use ($polyfill): mixed {
-                return $polyfill->decode($json, $associative, $depth, $flags);
+            ): mixed {
+                return $this->polyfill->decode($json, $associative, $depth, $flags);
             },
             true // Execute as userland function
         );
-
-        $this->enabled = true;
     }
 
     public function decode(

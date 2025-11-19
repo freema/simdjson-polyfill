@@ -11,6 +11,9 @@ jobs:
   benchmark:
     name: Run Benchmarks
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write  # Allow posting benchmark results as PR comments
 
     steps:
       - name: Checkout code
@@ -19,7 +22,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: 8.4
           extensions: json, mbstring, simdjson
           coverage: none
           tools: composer:v2
@@ -30,18 +33,13 @@ jobs:
       - name: Generate fixtures
         run: php tests/Benchmark/generate-fixtures.php
 
-      - name: Run benchmarks (without simdjson)
-        id: benchmark-native
+      - name: Run benchmarks (CI mode - 2000 iterations)
+        env:
+          BENCHMARK_ITERATIONS: 2000
         run: |
-          echo "## Benchmark Results (Native PHP)" >> $GITHUB_STEP_SUMMARY
+          echo "## Benchmark Results (CI Mode)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          php tests/Benchmark/JsonDecodeBenchmark.php | tee -a $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-
-      - name: Run benchmarks (with simdjson)
-        run: |
-          echo "## Benchmark Results (With simdjson)" >> $GITHUB_STEP_SUMMARY
+          echo "**Configuration:** 2,000 iterations (full benchmark with 10,000 iterations available locally via \`task benchmark\`)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           php tests/Benchmark/JsonDecodeBenchmark.php | tee -a $GITHUB_STEP_SUMMARY

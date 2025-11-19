@@ -17,39 +17,30 @@ final class SimdJsonExtension extends CompilerExtension
 {
     public function getConfigSchema(): Schema
     {
+        // Note: Nette Schema doesn't support ->info() method on Expect::* objects
+        // Configuration documentation should be provided in YAML/NEON config examples
         return Expect::structure([
-            'enabled' => Expect::bool(true)
-                ->info('Enable simdjson integration'),
+            'enabled' => Expect::bool(true),
             'strategy' => Expect::anyOf('auto', 'uopz', 'namespace', 'composer-plugin', 'auto-prepend', 'polyfill')
-                ->default('auto')
-                ->info('Strategy to use for json_decode override'),
-            'auto_detect' => Expect::bool(true)
-                ->info('Auto-detect best available strategy'),
+                ->default('auto'),
+            'auto_detect' => Expect::bool(true),
             'uopz' => Expect::structure([
-                'allow_in_production' => Expect::bool(false)
-                    ->info('Allow UOPZ strategy in production environment'),
+                'allow_in_production' => Expect::bool(false),
             ]),
             'namespace' => Expect::structure([
                 'namespaces' => Expect::listOf('string')
-                    ->default([])
-                    ->info('Namespaces to generate json_decode functions for'),
-                'output_dir' => Expect::string()->nullable()
-                    ->info('Directory for generated namespace functions'),
+                    ->default([]),
+                'output_dir' => Expect::string()->nullable(),
             ]),
             'composer_plugin' => Expect::structure([
-                'i_understand_the_risks' => Expect::bool(false)
-                    ->info('Confirm understanding of vendor code modification risks'),
-                'vendor_dir' => Expect::string()->nullable()
-                    ->info('Vendor directory path'),
+                'i_understand_the_risks' => Expect::bool(false),
+                'vendor_dir' => Expect::string()->nullable(),
                 'exclude_patterns' => Expect::listOf('string')
-                    ->default(['*/tests/*', '*/Tests/*'])
-                    ->info('Patterns to exclude from rewriting'),
-                'create_backups' => Expect::bool(true)
-                    ->info('Create .bak backups before modifying files'),
+                    ->default(['*/tests/*', '*/Tests/*']),
+                'create_backups' => Expect::bool(true),
             ]),
             'auto_prepend' => Expect::structure([
-                'output_file' => Expect::string()->nullable()
-                    ->info('Path for auto-prepend file'),
+                'output_file' => Expect::string()->nullable(),
             ]),
         ]);
     }
@@ -72,6 +63,7 @@ final class SimdJsonExtension extends CompilerExtension
 
     public function beforeCompile(): void
     {
+        /** @var \stdClass $config */
         $config = $this->getConfig();
 
         if (!$config->enabled) {
