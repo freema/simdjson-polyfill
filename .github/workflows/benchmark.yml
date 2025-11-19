@@ -11,6 +11,9 @@ jobs:
   benchmark:
     name: Run Benchmarks
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write  # Allow posting benchmark results as PR comments
 
     steps:
       - name: Checkout code
