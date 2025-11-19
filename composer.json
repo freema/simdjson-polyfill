@@ -1,6 +1,6 @@
 {
-    "name": "tomasgrasl/simdjson-polyfill",
-    "description": "🚀 Automatic simdjson integration for PHP with multiple override strategies. Drop-in replacement for json_decode() with 3x performance boost. Symfony & Nette support included.",
+    "name": "freema/simdjson-polyfill",
+    "description": "🚀 Automatic simdjson integration for PHP with multiple override strategies. Drop-in replacement for json_decode() with 3x performance boost. Symfony, Nette & Laravel support included.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -9,7 +9,8 @@
         "performance",
         "polyfill",
         "symfony",
-        "nette"
+        "nette",
+        "laravel"
     ],
     "authors": [
         {
@@ -25,13 +26,15 @@
         "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0",
         "symfony/yaml": "^5.4 || ^6.0 || ^7.0",
         "nette/di": "^3.0",
+        "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0",
         "nikic/php-parser": "^4.15 || ^5.0",
         "phpbench/phpbench": "^1.2",
         "phpstan/phpstan": "^1.10"
     },
     "suggest": {
         "ext-simdjson": "For 3x faster JSON parsing performance",
-        "ext-uopz": "For global json_decode() override via UopzStrategy"
+        "ext-uopz": "For global json_decode() override via UopzStrategy (PHP ≤ 8.3)",
+        "illuminate/support": "For Laravel framework integration"
     },
     "autoload": {
         "psr-4": {
@@ -49,6 +52,13 @@
     "config": {
         "sort-packages": true,
         "preferred-install": "dist"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SimdJsonPolyfill\\Bridge\\Laravel\\SimdJsonServiceProvider"
+            ]
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true

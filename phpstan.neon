@@ -5,6 +5,9 @@ parameters:
     ignoreErrors:
         # Symfony Config Builder - enumNode/scalarNode not in Symfony 5.4
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::(scalarNode|enumNode)\(\)#'
+        # Laravel helper functions - only available when Laravel is installed
+        - '#Function config_path not found#'
+        - '#Function config not found#'
         # Mixed type issues from config arrays - known safe, validated at runtime
         - '#Parameter \#[0-9]+ \$name of static method .*::createStrategy\(\) expects string, mixed given#'
         - '#Parameter \#[0-9]+ .* of (method|function) .* expects .*, mixed given#'
