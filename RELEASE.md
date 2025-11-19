@@ -146,7 +146,7 @@
 
 1. Update composer dependency:
    ```bash
-   composer update tomasgrasl/simdjson-polyfill
+   composer update freema/simdjson-polyfill
    ```
 
 2. If using Laravel, register the Service Provider:
@@ -185,7 +185,7 @@ Before releasing to Packagist:
 - [ ] Merge to main branch
 - [ ] Push tag to GitHub
 - [ ] Packagist webhook triggered
-- [ ] Verify installation: `composer require tomasgrasl/simdjson-polyfill:^1.1`
+- [ ] Verify installation: `composer require freema/simdjson-polyfill:^1.1`
 
 ---
 

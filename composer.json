@@ -1,5 +1,5 @@
 {
-    "name": "tomasgrasl/simdjson-polyfill",
+    "name": "freema/simdjson-polyfill",
     "description": "🚀 Automatic simdjson integration for PHP with multiple override strategies. Drop-in replacement for json_decode() with 3x performance boost. Symfony, Nette & Laravel support included.",
     "type": "library",
     "license": "MIT",

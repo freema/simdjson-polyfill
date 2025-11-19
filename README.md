@@ -1,8 +1,8 @@
 # 🚀 SimdJson Polyfill
 
 [![Tests](https://github.com/freema/simdjson-polyfill/workflows/Tests/badge.svg)](https://github.com/freema/simdjson-polyfill/actions)
-[![Latest Stable Version](https://poser.pugx.org/tomasgrasl/simdjson-polyfill/v)](https://packagist.org/packages/tomasgrasl/simdjson-polyfill)
-[![License](https://poser.pugx.org/tomasgrasl/simdjson-polyfill/license)](https://packagist.org/packages/tomasgrasl/simdjson-polyfill)
+[![Latest Stable Version](https://poser.pugx.org/freema/simdjson-polyfill/v)](https://packagist.org/packages/freema/simdjson-polyfill)
+[![License](https://poser.pugx.org/freema/simdjson-polyfill/license)](https://packagist.org/packages/freema/simdjson-polyfill)
 
 **Automatic [simdjson](https://github.com/simdjson/simdjson) integration for PHP with multiple override strategies.**
 
@@ -40,7 +40,7 @@ Get **3x faster JSON parsing** with minimal code changes. Drop-in replacement fo
 ## 📦 Installation
 
 ```bash
-composer require tomasgrasl/simdjson-polyfill
+composer require freema/simdjson-polyfill
 ```
 
 **Optional (for best performance):**
@@ -493,7 +493,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 - [simdjson](https://github.com/simdjson/simdjson) - The original C++ library
 - [simdjson PHP extension](https://github.com/crazyxman/simdjson_php) - PHP extension for simdjson
-- [Packagist](https://packagist.org/packages/tomasgrasl/simdjson-polyfill)
+- [Packagist](https://packagist.org/packages/freema/simdjson-polyfill)
 - [GitHub](https://github.com/freema/simdjson-polyfill)
 
 ## 📮 Support
