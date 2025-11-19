@@ -35,6 +35,8 @@ Get **3x faster JSON parsing** with minimal code changes. Drop-in replacement fo
 - PHP 8.0 or higher (tested on PHP 8.0, 8.1, 8.2, 8.3, and 8.4)
 - Composer
 
+**PHP 8.4 Note:** All strategies work on PHP 8.4 **except UopzStrategy**, which requires PHP ≤ 8.3 due to uopz extension incompatibility.
+
 ## 📦 Installation
 
 ```bash
@@ -158,6 +160,7 @@ $data = json_decode($json, true);
 - ⚠️ Requires `ext-uopz`
 - ⚠️ May have unexpected side effects
 - ⚠️ Disabled in production by default
+- ❌ **Not compatible with PHP 8.4+** (uopz doesn't support PHP 8.4 due to ZEND_EXIT opcode removal)
 
 ### 3. NamespaceStrategy (Medium Risk)
 
