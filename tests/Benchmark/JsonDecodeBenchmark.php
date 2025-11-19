@@ -13,7 +13,6 @@ use SimdJsonPolyfill\JsonDecoder;
  */
 final class JsonDecodeBenchmark
 {
-    private const ITERATIONS = 10000;
     private const FIXTURES_DIR = __DIR__ . '/fixtures';
 
     private array $fixtures = [
@@ -23,13 +22,18 @@ final class JsonDecodeBenchmark
         'xlarge.json' => '500KB',
     ];
 
+    private static function getIterations(): int
+    {
+        return (int) ($_ENV['BENCHMARK_ITERATIONS'] ?? $_SERVER['BENCHMARK_ITERATIONS'] ?? 10000);
+    }
+
     public function run(): void
     {
         echo "\n";
         echo "========================================\n";
         echo "SimdJsonPolyfill Benchmark\n";
         echo "========================================\n";
-        echo "Iterations: " . self::ITERATIONS . "\n";
+        echo "Iterations: " . self::getIterations() . "\n";
         echo "PHP Version: " . PHP_VERSION . "\n";
         echo "simdjson extension: " . (extension_loaded('simdjson') ? 'YES' : 'NO') . "\n";
         echo "========================================\n\n";
@@ -53,7 +57,7 @@ final class JsonDecodeBenchmark
         $formattedSize = $this->formatBytes($actualSize);
 
         echo "===== File: {$filename} ({$formattedSize}) =====\n";
-        echo "Iterations: " . self::ITERATIONS . "\n";
+        echo "Iterations: " . self::getIterations() . "\n";
 
         // Benchmark native json_decode
         $nativeStats = $this->benchmarkNativeJsonDecode($json);
@@ -92,7 +96,7 @@ final class JsonDecodeBenchmark
 
         $start = microtime(true);
 
-        for ($i = 0; $i < self::ITERATIONS; $i++) {
+        for ($i = 0; $i < self::getIterations(); $i++) {
             json_decode($json, true);
         }
 
@@ -119,7 +123,7 @@ final class JsonDecodeBenchmark
 
         $start = microtime(true);
 
-        for ($i = 0; $i < self::ITERATIONS; $i++) {
+        for ($i = 0; $i < self::getIterations(); $i++) {
             simdjson_decode($json, true);
         }
 
@@ -149,7 +153,7 @@ final class JsonDecodeBenchmark
 
         $start = microtime(true);
 
-        for ($i = 0; $i < self::ITERATIONS; $i++) {
+        for ($i = 0; $i < self::getIterations(); $i++) {
             $decodeFunc($json, true);
         }
 
@@ -191,7 +195,7 @@ final class JsonDecodeBenchmark
     private function printResult(string $name, array $stats): void
     {
         $wallTime = number_format($stats['wallTime'], 2);
-        $perOp = number_format($stats['wallTime'] / self::ITERATIONS, 3);
+        $perOp = number_format($stats['wallTime'] / self::getIterations(), 3);
         $cpuUser = number_format($stats['cpuUser'], 2);
         $cpuSystem = number_format($stats['cpuSystem'], 2);
         $memory = $this->formatBytes($stats['memory']);

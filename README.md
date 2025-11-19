@@ -30,6 +30,11 @@ Get **3x faster JSON parsing** with minimal code changes. Drop-in replacement fo
 - 💾 Lower CPU usage and better resource utilization
 - 🔥 Zero-copy parsing when possible
 
+## 📋 Requirements
+
+- PHP 8.0 or higher (tested on PHP 8.0, 8.1, 8.2, 8.3, and 8.4)
+- Composer
+
 ## 📦 Installation
 
 ```bash
