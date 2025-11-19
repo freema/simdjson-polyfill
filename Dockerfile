@@ -1,11 +1,11 @@
-FROM php:8.3-cli-alpine
+FROM php:8.3-cli
 
 # Install system dependencies
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
-    linux-headers \
-    $PHPIZE_DEPS
+    $PHPIZE_DEPS \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

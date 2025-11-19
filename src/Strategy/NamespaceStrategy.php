@@ -61,7 +61,7 @@ final class NamespaceStrategy implements StrategyInterface
 
     public function getPriority(): int
     {
-        return 50; // Medium priority
+        return 0; // Requires explicit configuration, not auto-detected
     }
 
     /**
